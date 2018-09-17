@@ -1,4 +1,4 @@
-(ns four-clojure.core
+(ns four-clojure.easy
   (:gen-class))
 
 (defn -main
