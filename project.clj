@@ -4,6 +4,8 @@
   :license {:name "MIT License"
             :url "https://github.com/xf-bnb/four-clojure/blob/master/LICENSE"}
   :dependencies [[org.clojure/clojure "1.9.0"]]
-  :main ^:skip-aot four-clojure.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}}
+  :repositories [["clojars" {:url "https://repo.clojars.org/"}]
+                 ["maven-central" {:url "https://repo1.maven.org/maven2"}]]
+  :source-paths ["src"])

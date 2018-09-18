@@ -9,10 +9,10 @@ pom.xml.asc
 *.jar
 *.class
 /.lein-*
+/.nrepl-port
 .lein-deps-sum
 .lein-repl-history
 .lein-failures
-.nrepl-port/
 .hgignore
 .hg/
 .cpcache/
