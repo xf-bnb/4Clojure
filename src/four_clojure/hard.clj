@@ -17,49 +17,19 @@
       x
       (recur (into x (split-number i)) (* i i)))))
 
-(defn square-string
-  [n]
-  (vector (repeat n (apply str (repeat n \space)))))
-
-
-(defn diamond-array
-  "get a diamond string"
-  [n]
-  (let [t (- (* 2 n) 1)]
-    (loop [x 0 s []]
-      (if (< x t)
-        (recur (inc x)
-               (conj s
-                     (loop [y 0 r []]
-                       (if (< y t)
-                         (recur (inc y)
-                                (conj r
-                                      (if (< x n)
-                                        (if (and (>= y (- n 1 x)) (<= y (+ (- n 1) x)))
-                                          (if (== 0 (mod (- y (- n 1 x)) 2)) \* \space)
-                                          \space)
-                                        (if (or (<= y (- x n)) (>= y (+ n (- (- t 1) x))))
-                                          \space
-                                          (if (== 0 (mod (- x n y) 2)) \space \*)))))
-                         r))))
-        s))))
-
-(comment
-  (println (diamond-string 5)))
-
-
-(def binary-array
-  [[0 0 0 0 0]
-   [0 0 0 0 0]
-   [0 0 0 0 0]
-   [0 0 0 0 0]
-   [0 0 0 0 0]])
+(defn get-square
+  [x]
+  (cond (< x 2) [x x]
+        (< x 5) [2 4]
+        (< x 10) [3 9]
+        :else (loop [k 4 t (* k k)]
+                (if (<= x t) [k t] (recur (inc k) (+ t k k 1))))))
 
 (defn print-binary-array
   [t]
   (print (reduce (fn [s a] (str s (reduce #(str %1 %2) "" a) "\n")) "" t)))
 
-(defn update-binary-array
+(defn update-square
   [t [x y] v]
   (assoc t x (assoc (t x) y v)))
 
@@ -72,24 +42,29 @@
         :else "error: the k is invalid !"))
 
 (defn set-value
-  [t [x y] k s v]
-  (loop [r (update-binary-array t [x y] v) i 1]
+  [t [x y] k s v g]
+  (loop [r (update-square t [x y] (g v)) i 1]
     (if (< i s)
-      (recur (update-binary-array r (next-pos [x y] k i) (+ v i)) (inc i))
+      (recur (update-square r (next-pos [x y] k i) (g (+ v i))) (inc i))
       r)))
 
 (defn set-array
-  [n]
-  (let [m (* n n)]
-    (loop [t (diamond-array n)
+  [a b]
+  (let [g (digit-square a b)
+        i (count g)
+        [n m] (get-square i)
+        r (- (* n 2) 1)
+        g (into g (repeat (- m i) \*))]
+    (println m n r g)
+    (loop [t (vec (repeat r (vec (repeat r \space))))
            [x y] [(bit-shift-left (bit-shift-right (dec n) 1) 1) (dec n)]
            k 0
            s 1
            v 0]
-      ;; (print-binary-array t)
-      ;; (println "[x, y]:" [x y] ", k:" k ", s:" s ", v:" v)
+      (print-binary-array t)
+      (println [x y] k s v)
       (if (< v m)
-        (recur (set-value t [x y] k s v)
+        (recur (set-value t [x y] k s v g)
                (next-pos [x y] k s)
                (mod (inc k) 4)
                (if (== 0 (rem k 2)) s (inc s))
@@ -98,11 +73,3 @@
                (+ v s))
         t))))
 
-
-(defn get-square
-  [x]
-  (cond (< x 2) [x x]
-        (< x 5) [2 4]
-        (< x 10) [3 9]
-        :else (loop [k 4 t (* k k)]
-                (if (<= x t) [k t] (recur (inc k) (+ t k k 1))))))

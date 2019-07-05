@@ -75,14 +75,14 @@
 
 ;; 36 Let it Be
 (= 10 (let [x 7 y 3 z 1] (+ x y)))
-(= 4 (let [x 7 y 3 z 1] (+ y z)))
-(= 1 (let [x 7 y 3 z 1] z))
+(= 4  (let [x 7 y 3 z 1] (+ y z)))
+(= 1  (let [x 7 y 3 z 1] z))
 
 ;; 37 Regular Expressions
 (= "ABC" (apply str (re-seq #"[A-Z]+" "bA1B3Ce ")))
 
 ;; 57 Simple Recursion
-(= '(5 4 3 2 1 nil) ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5))
+(= '(5 4 3 2 1) ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5))
 
 ;; 64 Intro to Reduce
 (= 15 (reduce + [1 2 3 4 5]))
