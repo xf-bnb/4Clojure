@@ -27,3 +27,44 @@
 
 ;; 27 Palindrome Detector
 (fn [s] (= (seq s) (reverse s)))
+
+;; 28 Flatten a Sequence
+(fn [c]
+  (letfn [(f [x y]
+            (reduce (fn [m n] (if (sequential? n) (f m n) (conj m n))) x y))]
+    (f [] c)))
+
+;; 29 Get the Caps
+(fn [s] (apply str (filter #(< 64 (int %) 91) s)))
+
+;; 30 Compress a Sequence
+(fn [c] (reduce (fn [s x] (if (= (last s) x) s (conj s x))) [] c))
+
+;; 31 Pack a Sequence
+(fn [c]
+  (letfn [(f [s x] (if (= x (-> s last last)) (conj (pop s) (conj (last s) x)) (conj s [x])))]
+    (reduce f [] c)))
+
+;; 32 Duplicate a Sequence
+(fn [c] (reduce (fn [s x] (conj s x x)) [] c))
+
+;; 33 Replicate a Sequence
+(fn [c n] (reduce (fn [s x] (into s (repeat n x))) [] c))
+
+;; 34 Implement range
+(fn f [i x] (if (< i x) (into (f i (dec x)) [(dec x)]) []))
+
+;; 38 Maximum value
+(fn [x & xs] (reduce #(if (< %1 %2) %2 %1) x xs))
+
+;; 39 Interleave Two Seqs
+(fn [a b] (flatten (map #(identity [%1 %2]) a b)))
+
+;; 40 Interpose a Seq
+(fn [x c] (reduce (fn [s y] (conj s x y)) [(first c)] (rest c)))
+
+;; 41 Drop Every Nth Item
+(fn [c n] (for [i (range (count c)) :when (not= (rem (+ i 1) n) 0)] (nth c i)))
+
+;; 42 Factorial Fun
+(fn [n] (apply * (range 1 (+ n 1))))
