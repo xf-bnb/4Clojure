@@ -68,3 +68,32 @@
 
 ;; 42 Factorial Fun
 (fn [n] (apply * (range 1 (+ n 1))))
+
+;; 45 Intro to Iterate
+(list 1 4 7 10 13)
+
+;; 47 Contain Yourself
+4
+
+;; 48 Intro to some
+6
+
+;; 49 Split a sequence
+(fn [n coll] [(take n coll) (drop n coll)])
+
+;; 51 Advanced Destructuring
+[1 2 3 4 5]
+
+;; 61 Map Construction
+(fn [a b] (into {} (map vector a b)))
+
+;; 62 Re-implement Iterate
+(fn iter [f x] (lazy-seq (cons x (iter f (f x)))))
+
+;; 63 Group a Sequence
+(fn [f coll]
+  (reduce (fn [m v] (let [k (f v)] (assoc m k (conj (get m k []) v)))) {} coll))
+
+;; 66 Greatest Common Divisor
+(fn [a b] (if (zero? a) b (recur (mod b a) a)))
+

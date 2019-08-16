@@ -81,6 +81,9 @@
 ;; 37 Regular Expressions
 (= "ABC" (apply str (re-seq #"[A-Z]+" "bA1B3Ce ")))
 
+;; 52 Intro to Destructuring
+(= [2 4] (let [[a b c d e] [0 1 2 3 4]] [c e]))
+
 ;; 57 Simple Recursion
 (= '(5 4 3 2 1) ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5))
 
@@ -89,3 +92,10 @@
 (=  0 (reduce + []))
 (=  6 (reduce + 1 [2 3]))
 
+;; 68 Recurring Theme
+(= [7 6 5 4 3]
+   (loop [x 5
+          result []]
+     (if (> x 0)
+       (recur (dec x) (conj result (+ 2 x)))
+       result)))

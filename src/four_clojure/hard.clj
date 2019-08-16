@@ -1,6 +1,27 @@
 (ns four-clojure.hard)
 
 
+;; 53 Longest Increasing Sub-Seq
+(fn [coll]
+  (let [{:keys [longest current]}
+        (reduce (fn [{:keys [longest current target status] :as m} v]
+                  (case status
+                    :find (if (= v (inc target))
+                            (assoc m :current [target v] :status :reduce :target v)
+                            (assoc m :target v))
+                    :reduce (if (= v (inc target))
+                              (assoc m :current (conj current v) :target v)
+                              (if (< (count longest) (count current))
+                                (assoc m :longest current :current [] :status :find :target v)
+                                (assoc m :current [] :status :find :target v)))
+                    (assoc m :target v :status :find)))
+                {:longest [] :current []}
+                coll)]
+    (if (< (count longest) (count current))
+      current
+      longest)))
+
+
 ;; 138 Squares Squared
 
 (defn split-number
