@@ -97,3 +97,8 @@
 ;; 66 Greatest Common Divisor
 (fn [a b] (if (zero? a) b (recur (mod b a) a)))
 
+;; 100 Least Common Multiple
+(fn [x y & args]
+  (let [gcd (fn [a b] (if (zero? a) b (recur (mod b a) a)))
+        [a b] (reduce (fn [[a b] v] [(* a v) (gcd b v)]) [(* x y) (gcd x y)] args)]
+    (/ a b)))
